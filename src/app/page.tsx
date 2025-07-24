@@ -3,17 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 
-const links = [
-  { label: "Home", href: "/", icon: "fas fa-home" },
-  {
-    label: "How to Play",
-    href: "#how-to-play",
-    icon: "fas fa-question-circle",
-  },
-];
-
 export default function HomePage() {
-  const [showModal, setShowModal] = useState(false);
+  const [showHowToPlay, setShowHowToPlay] = useState(false);
+  const [showGenerate, setShowGenerate] = useState(false);
+  const [prompt, setPrompt] = useState("");
+  const [generatedJoke, setGeneratedJoke] = useState("");
   const [joke, setJoke] = useState(
     "Why don't scientists trust atoms? Because they make up everything!",
   );
@@ -22,13 +16,18 @@ export default function HomePage() {
   const emojiClass =
     "inline-block animate-bounce text-7xl md:text-8xl drop-shadow-lg mb-6";
 
+  // Mock joke generation based on prompt
+  function handleGenerateJoke(e: React.FormEvent) {
+    e.preventDefault();
+    if (!prompt.trim()) return;
+    // Simple mock logic
+    setGeneratedJoke(
+      `Why did the ${prompt.trim().toLowerCase()} cross the road? To get to the punchline!`,
+    );
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] px-4 text-white">
-      {/* FontAwesome CDN */}
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      />
       {/* Simple Topbar */}
       <header className="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-gradient-to-r from-[#2e026d]/90 to-[#15162c]/90 shadow-md backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-3">
@@ -44,21 +43,27 @@ export default function HomePage() {
             </Link>
             <button
               className="flex items-center gap-2 font-semibold text-white/90 transition hover:text-[hsl(200,100%,70%)] focus:outline-none"
-              onClick={() => setShowModal(true)}
+              onClick={() => setShowHowToPlay(true)}
             >
               <i className="fas fa-question-circle" /> How to Play
+            </button>
+            <button
+              className="flex items-center gap-2 font-semibold text-white/90 transition hover:text-[hsl(200,100%,70%)] focus:outline-none"
+              onClick={() => setShowGenerate(true)}
+            >
+              <i className="fas fa-magic" /> Generate
             </button>
           </nav>
         </div>
       </header>
 
       {/* Modal for How to Play */}
-      {showModal && (
+      {showHowToPlay && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="animate-fade-in relative w-full max-w-md rounded-xl border border-white/20 bg-[#1a1333] p-8 shadow-2xl">
             <button
               className="absolute top-3 right-3 text-2xl font-bold text-white/60 hover:text-white focus:outline-none"
-              onClick={() => setShowModal(false)}
+              onClick={() => setShowHowToPlay(false)}
               aria-label="Close"
             >
               ×
@@ -78,6 +83,49 @@ export default function HomePage() {
               <li>Click again for a new joke.</li>
               <li>Share the laughter with friends!</li>
             </ol>
+          </div>
+        </div>
+      )}
+
+      {/* Modal for Generate Joke by Prompt */}
+      {showGenerate && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="animate-fade-in relative w-full max-w-md rounded-xl border border-white/20 bg-[#1a1333] p-8 shadow-2xl">
+            <button
+              className="absolute top-3 right-3 text-2xl font-bold text-white/60 hover:text-white focus:outline-none"
+              onClick={() => {
+                setShowGenerate(false);
+                setPrompt("");
+                setGeneratedJoke("");
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-[hsl(200,100%,70%)]">
+              <i className="fas fa-magic" /> Generate a Joke
+            </h2>
+            <form onSubmit={handleGenerateJoke} className="flex flex-col gap-4">
+              <input
+                type="text"
+                className="rounded-lg border-2 border-white/30 bg-white/10 px-4 py-3 text-white placeholder-white/50 backdrop-blur-sm transition-all focus:border-[hsl(200,100%,70%)] focus:outline-none"
+                placeholder="Enter a topic or prompt (e.g. cats, school)"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="rounded-lg bg-[hsl(200,100%,70%)] px-6 py-3 text-lg font-bold text-[#15162c] shadow-xl transition-all hover:bg-[hsl(200,100%,80%)] focus:ring-2 focus:ring-white/50 focus:outline-none"
+              >
+                Generate
+              </button>
+            </form>
+            {generatedJoke && (
+              <div className="mt-6 rounded-lg border border-white/20 bg-white/10 p-4 text-center text-lg text-white">
+                {generatedJoke}
+              </div>
+            )}
           </div>
         </div>
       )}
