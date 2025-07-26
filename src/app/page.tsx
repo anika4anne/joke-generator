@@ -24,9 +24,9 @@ export default function HomePage() {
   );
   const [currentQuizJoke, setCurrentQuizJoke] = useState<Joke | null>(null);
 
-  // Placeholder for animation (wiggle)
-  const emojiClass =
-    "inline-block animate-bounce text-7xl md:text-8xl drop-shadow-lg mb-6";
+  // Placeholder for animation (wiggle) - keeping for future use
+  // const emojiClass =
+  //   "inline-block animate-bounce text-7xl md:text-8xl drop-shadow-lg mb-6";
 
   // AI-powered joke generation
   async function generateAIJoke(
@@ -49,7 +49,7 @@ export default function HomePage() {
         throw new Error("Failed to generate joke");
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as { joke: string };
       return data.joke;
     } catch (error) {
       console.error("Error generating AI joke:", error);
@@ -66,7 +66,7 @@ export default function HomePage() {
       // Special handling for people category with personalized jokes
       if (selectedCategory === "people" && prompt.trim()) {
         const personInfo = prompt.trim();
-        const personName = personInfo.split(",")[0]?.trim() || "Someone";
+        const personName = personInfo.split(",")[0]?.trim() ?? "Someone";
         const personDetails = personInfo.split(",").slice(1).join(",").trim();
 
         // Use AI for personalized people jokes
@@ -384,14 +384,16 @@ export default function HomePage() {
                   <div>
                     <p className="mb-2">🎉 Correct! Great job!</p>
                     <p className="text-sm text-white/70">
-                      The punchline was: "{currentQuizJoke.punchline}"
+                      The punchline was: &ldquo;{currentQuizJoke.punchline}
+                      &rdquo;
                     </p>
                   </div>
                 ) : (
                   <div>
                     <p className="mb-2">❌ Not quite right. Try again!</p>
                     <p className="text-sm text-white/70">
-                      The correct punchline was: "{currentQuizJoke.punchline}"
+                      The correct punchline was: &ldquo;
+                      {currentQuizJoke.punchline}&rdquo;
                     </p>
                   </div>
                 )}
@@ -442,10 +444,10 @@ export default function HomePage() {
             <div className="space-y-4 text-center">
               <div className="flex min-h-[80px] flex-col justify-center">
                 <p className="mb-3 text-xl leading-relaxed font-medium md:text-2xl">
-                  "{joke.setup}"
+                  &ldquo;{joke.setup}&rdquo;
                 </p>
                 <p className="text-xl leading-relaxed font-bold text-[hsl(200,100%,70%)] md:text-2xl">
-                  "{joke.punchline}"
+                  &ldquo;{joke.punchline}&rdquo;
                 </p>
               </div>
 

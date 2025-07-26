@@ -1,9 +1,24 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+
+interface RequestData {
+  category: string;
+  topic: string;
+}
+
+interface AIResponse {
+  choices: Array<{
+    message: {
+      content: string;
+    };
+  }>;
+}
 
 export async function POST(request: NextRequest) {
-  try {
-    const { category, topic } = await request.json();
+  // Parse request data once at the beginning
+  const { category, topic } = (await request.json()) as RequestData;
 
+  try {
     // Use Hack Club AI (free, no API key needed)
     const prompt = generatePrompt(category, topic);
 
@@ -39,7 +54,7 @@ export async function POST(request: NextRequest) {
       throw new Error(`Hack Club AI error: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as AIResponse;
     console.log("Hack Club AI response data:", data);
 
     const aiJoke = data.choices[0]?.message?.content?.trim();

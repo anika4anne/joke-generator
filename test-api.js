@@ -30,7 +30,10 @@ async function testHackClubAI() {
     const data = await response.json();
     console.log("Success! Response:", data.choices[0]?.message?.content);
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error(
+      "Error:",
+      error instanceof Error ? error.message : String(error),
+    );
   }
 }
 
