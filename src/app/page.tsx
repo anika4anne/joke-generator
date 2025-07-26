@@ -267,8 +267,8 @@ export default function HomePage() {
                   className="w-full rounded-lg border-2 border-white/30 bg-white/10 px-4 py-3 text-white placeholder-white/50 backdrop-blur-sm transition-all focus:border-[hsl(200,100%,70%)] focus:outline-none"
                   placeholder={
                     selectedCategory === "people"
-                      ? "e.g. John, a teacher who loves pizza..."
-                      : "e.g. cats, school, pizza, doctors..."
+                      ? "ex. John, a teacher who loves pizza..."
+                      : "ex. cats, school, pizza, doctors..."
                   }
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
