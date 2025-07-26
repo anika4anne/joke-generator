@@ -4,25 +4,17 @@ export async function POST(request: NextRequest) {
   try {
     const { category, topic } = await request.json();
 
-    // Check if OpenAI API key is available
-    const openaiApiKey = process.env.OPENAI_API_KEY;
-
-    if (!openaiApiKey) {
-      // Fallback to mock AI if no API key
-      return generateMockJoke(category, topic);
-    }
-
-    // Use real OpenAI API
+    // Use Hack Club AI (free, no API key needed)
     const prompt = generatePrompt(category, topic);
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    console.log("Making Hack Club AI API call with prompt:", prompt);
+
+    const response = await fetch("https://ai.hackclub.com/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${openaiApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
         messages: [
           {
             role: "system",
@@ -39,11 +31,17 @@ export async function POST(request: NextRequest) {
       }),
     });
 
+    console.log("Hack Club AI response status:", response.status);
+
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error("Hack Club AI error response:", errorText);
+      throw new Error(`Hack Club AI error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
+    console.log("Hack Club AI response data:", data);
+
     const aiJoke = data.choices[0]?.message?.content?.trim();
 
     if (!aiJoke) {
