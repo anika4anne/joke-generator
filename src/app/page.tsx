@@ -308,6 +308,11 @@ export default function HomePage() {
           Built with Next.js & Tailwind CSS
         </p>
       </div>
+
+      {/* Footer */}
+      <footer className="fixed right-4 bottom-4 text-sm text-white/60">
+        © 2025 Created by Anika
+      </footer>
     </main>
   );
 }
