@@ -14,6 +14,7 @@ export default function HomePage() {
   const [showGenerate, setShowGenerate] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [generatedJoke, setGeneratedJoke] = useState("");
   const [joke, setJoke] = useState<Joke>(getRandomJoke());
   const [quizAnswer, setQuizAnswer] = useState("");
@@ -26,31 +27,36 @@ export default function HomePage() {
   const emojiClass =
     "inline-block animate-bounce text-7xl md:text-8xl drop-shadow-lg mb-6";
 
-  // Joke generation based on prompt
+  // Joke generation based on category and prompt
   function handleGenerateJoke(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (!prompt.trim()) return;
 
-    // Try to find jokes related to the prompt
-    const promptLower = prompt.trim().toLowerCase();
-    const relevantJokes = jokes.filter(
-      (joke) =>
-        joke.setup.toLowerCase().includes(promptLower) ||
-        joke.punchline.toLowerCase().includes(promptLower) ||
-        joke.category.toLowerCase().includes(promptLower),
-    );
+    let jokesToChooseFrom = jokes;
 
-    if (relevantJokes.length > 0) {
-      const randomRelevantJoke =
-        relevantJokes[Math.floor(Math.random() * relevantJokes.length)];
-      if (randomRelevantJoke) {
-        setGeneratedJoke(
-          `${randomRelevantJoke.setup} ${randomRelevantJoke.punchline}`,
-        );
-      }
-    } else {
-      // Fallback to a random joke
-      const randomJoke = getRandomJoke();
+    // Filter by category if selected
+    if (selectedCategory) {
+      jokesToChooseFrom = getJokesByCategory(selectedCategory);
+    }
+
+    // Filter by prompt if provided
+    if (prompt.trim()) {
+      const promptLower = prompt.trim().toLowerCase();
+      jokesToChooseFrom = jokesToChooseFrom.filter(
+        (joke) =>
+          joke.setup.toLowerCase().includes(promptLower) ||
+          joke.punchline.toLowerCase().includes(promptLower) ||
+          joke.category.toLowerCase().includes(promptLower),
+      );
+    }
+
+    // If no jokes found, use all jokes
+    if (jokesToChooseFrom.length === 0) {
+      jokesToChooseFrom = jokes;
+    }
+
+    const randomJoke =
+      jokesToChooseFrom[Math.floor(Math.random() * jokesToChooseFrom.length)];
+    if (randomJoke) {
       setGeneratedJoke(`${randomJoke.setup} ${randomJoke.punchline}`);
     }
   }
@@ -175,6 +181,7 @@ export default function HomePage() {
               onClick={() => {
                 setShowGenerate(false);
                 setPrompt("");
+                setSelectedCategory("");
                 setGeneratedJoke("");
               }}
               aria-label="Close"
@@ -185,19 +192,55 @@ export default function HomePage() {
               <i className="fas fa-magic" /> Generate a Joke
             </h2>
             <form onSubmit={handleGenerateJoke} className="flex flex-col gap-4">
-              <input
-                type="text"
-                className="rounded-lg border-2 border-white/30 bg-white/10 px-4 py-3 text-white placeholder-white/50 backdrop-blur-sm transition-all focus:border-[hsl(200,100%,70%)] focus:outline-none"
-                placeholder="Enter a topic or prompt (e.g. cats, school)"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                required
-              />
+              {/* Category Selection */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-white/80">
+                  Choose a category (optional):
+                </label>
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full rounded-lg border-2 border-white/30 bg-white/10 px-4 py-3 text-white backdrop-blur-sm transition-all focus:border-[hsl(200,100%,70%)] focus:outline-none"
+                >
+                  <option value="">All Categories</option>
+                  <option value="animals">🐾 Animals</option>
+                  <option value="food">🍕 Food & Cooking</option>
+                  <option value="science">🔬 Science & Technology</option>
+                  <option value="school">📚 School & Education</option>
+                  <option value="work">💼 Work & Jobs</option>
+                  <option value="health">🏥 Health & Medicine</option>
+                  <option value="sports">⚽ Sports & Exercise</option>
+                  <option value="travel">✈️ Travel & Transportation</option>
+                  <option value="music">🎵 Music & Entertainment</option>
+                  <option value="weather">🌤️ Weather & Nature</option>
+                  <option value="money">💰 Money & Finance</option>
+                  <option value="relationships">
+                    💕 Relationships & Dating
+                  </option>
+                  <option value="language">📝 Language & Words</option>
+                  <option value="time">⏰ Time & Calendar</option>
+                </select>
+              </div>
+
+              {/* Topic/Prompt Input */}
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-white/80">
+                  Or enter a specific topic:
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded-lg border-2 border-white/30 bg-white/10 px-4 py-3 text-white placeholder-white/50 backdrop-blur-sm transition-all focus:border-[hsl(200,100%,70%)] focus:outline-none"
+                  placeholder="e.g. cats, school, pizza, doctors..."
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                />
+              </div>
+
               <button
                 type="submit"
                 className="rounded-lg bg-[hsl(200,100%,70%)] px-6 py-3 text-lg font-bold text-[#15162c] shadow-xl transition-all hover:bg-[hsl(200,100%,80%)] focus:ring-2 focus:ring-white/50 focus:outline-none"
               >
-                Generate
+                Generate Joke
               </button>
             </form>
             {generatedJoke && (
@@ -303,7 +346,6 @@ export default function HomePage() {
           <span className="mb-6 inline-block rotate-2 transform text-8xl drop-shadow-lg transition-transform duration-300 hover:rotate-0 md:text-9xl">
             😂
           </span>
-          <div className="absolute -top-2 -right-2 h-4 w-4 animate-pulse rounded-full bg-yellow-400"></div>
         </div>
 
         {/* More personal, handwritten-style title */}
@@ -322,16 +364,7 @@ export default function HomePage() {
 
         {/* Joke card with more personality */}
         <div className="relative w-full">
-          <div className="absolute -top-2 -left-2 h-4 w-4 rounded-full bg-pink-400 opacity-60"></div>
-          <div className="absolute -right-2 -bottom-2 h-3 w-3 rounded-full bg-blue-400 opacity-60"></div>
-
           <div className="relative overflow-hidden rounded-2xl border border-white/25 bg-white/15 p-8 shadow-xl backdrop-blur-sm">
-            {/* Decorative elements */}
-            <div className="absolute top-4 right-4 text-2xl opacity-20">💭</div>
-            <div className="absolute bottom-4 left-4 text-xl opacity-20">
-              ✨
-            </div>
-
             <div className="space-y-4 text-center">
               <div className="flex min-h-[80px] flex-col justify-center">
                 <p className="mb-3 text-xl leading-relaxed font-medium md:text-2xl">
@@ -355,9 +388,7 @@ export default function HomePage() {
 
         {/* Personal note */}
         <div className="space-y-2 text-center">
-          <p className="text-sm text-white/60">
-            Made with ❤️ and lots of dad jokes
-          </p>
+          <p className="text-sm text-white/60">Made with ❤️</p>
           <p className="text-xs text-white/40">
             Click the button above for endless laughs!
           </p>
