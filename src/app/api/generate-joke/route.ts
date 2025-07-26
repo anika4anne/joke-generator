@@ -27,15 +27,15 @@ export async function POST(request: NextRequest) {
           {
             role: "system",
             content:
-              "You are a creative joke generator. Generate short, funny, family-friendly jokes. Keep them under 100 words and make them genuinely humorous.",
+              "You are a creative joke generator. Your task is to create ORIGINAL, funny jokes from scratch based on the user's prompt. Do NOT use templates or pre-written jokes. Create something genuinely new and creative. Keep jokes family-friendly, under 100 words, and actually funny. Respond with just the joke, no explanations.",
           },
           {
             role: "user",
             content: prompt,
           },
         ],
-        max_tokens: 150,
-        temperature: 0.8,
+        max_tokens: 200,
+        temperature: 0.9,
       }),
     });
 
@@ -63,29 +63,44 @@ export async function POST(request: NextRequest) {
 }
 
 function generatePrompt(category: string, topic: string): string {
-  const categoryPrompts = {
-    people: `Generate a funny, personalized joke about a person named "${topic}". Make it about their personality, job, or characteristics. Keep it light-hearted and family-friendly.`,
-    animals: `Generate a funny joke about ${topic}. Make it creative and entertaining.`,
-    food: `Generate a funny joke about ${topic}. Make it about food, cooking, or eating.`,
-    science: `Generate a funny science or technology joke about ${topic}. Make it clever and educational.`,
-    school: `Generate a funny joke about school, education, or learning related to ${topic}.`,
-    work: `Generate a funny workplace joke about ${topic}. Keep it professional but humorous.`,
-    health: `Generate a funny joke about health, medicine, or doctors related to ${topic}.`,
-    sports: `Generate a funny sports joke about ${topic}.`,
-    travel: `Generate a funny travel joke about ${topic}.`,
-    music: `Generate a funny music joke about ${topic}.`,
-    weather: `Generate a funny weather or nature joke about ${topic}.`,
-    money: `Generate a funny joke about money, finance, or business related to ${topic}.`,
-    relationships: `Generate a funny relationship joke about ${topic}. Keep it clean and family-friendly.`,
-    language: `Generate a funny wordplay or language joke about ${topic}.`,
-    time: `Generate a funny joke about time, calendars, or schedules related to ${topic}.`,
-    general: `Generate a funny, creative joke about ${topic}. Make it entertaining and original.`,
+  // Create a direct, simple prompt that asks AI to generate a joke from scratch
+  const basePrompt = `Create a funny, original joke about "${topic}". 
+  
+Requirements:
+- Make it genuinely creative and original
+- Keep it family-friendly and appropriate
+- Make it specific to the topic provided
+- Use wordplay, puns, or clever observations
+- Keep it under 100 words
+- Make it actually funny and entertaining
+
+Just provide the joke directly, no explanations.`;
+
+  // Add category-specific context if needed
+  const categoryContext = {
+    people: `Focus on the person's name, job, or personality traits.`,
+    animals: `Make it about the animal's behavior, characteristics, or habits.`,
+    food: `Use food-related wordplay, cooking, or eating scenarios.`,
+    science: `Include scientific concepts, technology, or educational humor.`,
+    school: `Reference learning, education, teachers, or school life.`,
+    work: `Use workplace scenarios, office humor, or professional situations.`,
+    health: `Reference medicine, doctors, health, or wellness topics.`,
+    sports: `Use sports terminology, athletic scenarios, or game situations.`,
+    travel: `Reference travel, transportation, or vacation scenarios.`,
+    music: `Use musical terms, instruments, or performance scenarios.`,
+    weather: `Reference weather, nature, or environmental topics.`,
+    money: `Use financial terms, business scenarios, or economic humor.`,
+    relationships: `Focus on dating, friendship, or relationship dynamics.`,
+    language: `Use wordplay, puns, or linguistic humor.`,
+    time: `Reference time, schedules, calendars, or temporal concepts.`,
+    general: `Be creative and original with the topic.`,
   };
 
-  return (
-    categoryPrompts[category as keyof typeof categoryPrompts] ||
-    categoryPrompts.general
-  );
+  const context =
+    categoryContext[category as keyof typeof categoryContext] ||
+    categoryContext.general;
+
+  return `${basePrompt}\n\nContext: ${context}`;
 }
 
 function generateMockJoke(category: string, topic: string) {
