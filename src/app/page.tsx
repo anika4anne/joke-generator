@@ -2,28 +2,51 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import {
+  getRandomJoke,
+  getJokesByCategory,
+  jokes,
+  type Joke,
+} from "../data/jokes";
 
 export default function HomePage() {
   const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [showGenerate, setShowGenerate] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [generatedJoke, setGeneratedJoke] = useState("");
-  const [joke, setJoke] = useState(
-    "Why don't scientists trust atoms? Because they make up everything!",
-  );
+  const [joke, setJoke] = useState<Joke>(getRandomJoke());
 
   // Placeholder for animation (wiggle)
   const emojiClass =
     "inline-block animate-bounce text-7xl md:text-8xl drop-shadow-lg mb-6";
 
-  // Mock joke generation based on prompt
-  function handleGenerateJoke(e: React.FormEvent) {
+  // Joke generation based on prompt
+  function handleGenerateJoke(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!prompt.trim()) return;
-    // Simple mock logic
-    setGeneratedJoke(
-      `Why did the ${prompt.trim().toLowerCase()} cross the road? To get to the punchline!`,
+
+    // Try to find jokes related to the prompt
+    const promptLower = prompt.trim().toLowerCase();
+    const relevantJokes = jokes.filter(
+      (joke) =>
+        joke.setup.toLowerCase().includes(promptLower) ||
+        joke.punchline.toLowerCase().includes(promptLower) ||
+        joke.category.toLowerCase().includes(promptLower),
     );
+
+    if (relevantJokes.length > 0) {
+      const randomRelevantJoke =
+        relevantJokes[Math.floor(Math.random() * relevantJokes.length)];
+      if (randomRelevantJoke) {
+        setGeneratedJoke(
+          `${randomRelevantJoke.setup} ${randomRelevantJoke.punchline}`,
+        );
+      }
+    } else {
+      // Fallback to a random joke
+      const randomJoke = getRandomJoke();
+      setGeneratedJoke(`${randomJoke.setup} ${randomJoke.punchline}`);
+    }
   }
 
   return (
@@ -142,16 +165,13 @@ export default function HomePage() {
           <span className="text-[hsl(200,100%,70%)]">Joke Generator</span>
         </h1>
         <div className="flex w-full flex-col items-center gap-4 rounded-xl border border-white/20 bg-white/10 p-8 shadow-lg backdrop-blur-md">
-          <p className="min-h-[60px] text-center text-xl font-medium md:text-2xl">
-            {joke}
-          </p>
+          <div className="min-h-[60px] text-center text-xl font-medium md:text-2xl">
+            <p className="mb-2">{joke.setup}</p>
+            <p className="text-[hsl(200,100%,70%)]">{joke.punchline}</p>
+          </div>
           <button
             className="mt-2 rounded-full bg-[hsl(200,100%,70%)] px-8 py-3 text-lg font-bold text-[#15162c] shadow-md transition-all duration-200 hover:scale-105 hover:bg-[hsl(200,100%,80%)] focus:ring-2 focus:ring-white/50 focus:outline-none"
-            onClick={() =>
-              setJoke(
-                "Why did the chicken join a band? Because it had the drumsticks!",
-              )
-            }
+            onClick={() => setJoke(getRandomJoke())}
           >
             Generate Joke
           </button>
