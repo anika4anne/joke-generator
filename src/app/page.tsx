@@ -12,9 +12,15 @@ import {
 export default function HomePage() {
   const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [showGenerate, setShowGenerate] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [generatedJoke, setGeneratedJoke] = useState("");
   const [joke, setJoke] = useState<Joke>(getRandomJoke());
+  const [quizAnswer, setQuizAnswer] = useState("");
+  const [quizResult, setQuizResult] = useState<"correct" | "incorrect" | null>(
+    null,
+  );
+  const [currentQuizJoke, setCurrentQuizJoke] = useState<Joke | null>(null);
 
   // Placeholder for animation (wiggle)
   const emojiClass =
@@ -49,6 +55,30 @@ export default function HomePage() {
     }
   }
 
+  // Quiz grading function
+  function handleQuizSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!currentQuizJoke || !quizAnswer.trim()) return;
+
+    const userAnswer = quizAnswer.trim().toLowerCase();
+    const correctAnswer = currentQuizJoke.punchline.toLowerCase();
+
+    // Simple matching - check if user's answer contains key words from the punchline
+    const keyWords = correctAnswer.split(" ").filter((word) => word.length > 3);
+    const hasKeyWords = keyWords.some((word) => userAnswer.includes(word));
+
+    // Also check for exact match or close match
+    const isExactMatch = userAnswer === correctAnswer;
+    const isCloseMatch =
+      correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer);
+
+    if (isExactMatch || isCloseMatch || hasKeyWords) {
+      setQuizResult("correct");
+    } else {
+      setQuizResult("incorrect");
+    }
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] px-4 text-white">
       {/* Simple Topbar */}
@@ -75,6 +105,17 @@ export default function HomePage() {
               onClick={() => setShowGenerate(true)}
             >
               <i className="fas fa-magic" /> Generate
+            </button>
+            <button
+              className="flex items-center gap-2 font-semibold text-white/90 transition hover:text-[hsl(200,100%,70%)] focus:outline-none"
+              onClick={() => {
+                setShowQuiz(true);
+                setCurrentQuizJoke(getRandomJoke());
+                setQuizAnswer("");
+                setQuizResult(null);
+              }}
+            >
+              <i className="fas fa-question-circle" /> Quiz
             </button>
           </nav>
         </div>
@@ -147,6 +188,91 @@ export default function HomePage() {
             {generatedJoke && (
               <div className="mt-6 rounded-lg border border-white/20 bg-white/10 p-4 text-center text-lg text-white">
                 {generatedJoke}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal for Quiz */}
+      {showQuiz && currentQuizJoke && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="animate-fade-in relative w-full max-w-md rounded-xl border border-white/20 bg-[#1a1333] p-8 shadow-2xl">
+            <button
+              className="absolute top-3 right-3 text-2xl font-bold text-white/60 hover:text-white focus:outline-none"
+              onClick={() => {
+                setShowQuiz(false);
+                setQuizAnswer("");
+                setQuizResult(null);
+                setCurrentQuizJoke(null);
+              }}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <h2 className="mb-4 flex items-center gap-2 text-2xl font-bold text-[hsl(200,100%,70%)]">
+              <i className="fas fa-question-circle" /> Joke Quiz
+            </h2>
+
+            <div className="mb-6">
+              <p className="mb-4 text-lg text-white/90">
+                <strong>Setup:</strong> {currentQuizJoke.setup}
+              </p>
+              <p className="text-lg text-white/90">
+                <strong>Your task:</strong> Complete the punchline!
+              </p>
+            </div>
+
+            <form onSubmit={handleQuizSubmit} className="flex flex-col gap-4">
+              <input
+                type="text"
+                className="rounded-lg border-2 border-white/30 bg-white/10 px-4 py-3 text-white placeholder-white/50 backdrop-blur-sm transition-all focus:border-[hsl(200,100%,70%)] focus:outline-none"
+                placeholder="Type your punchline here..."
+                value={quizAnswer}
+                onChange={(e) => setQuizAnswer(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="rounded-lg bg-[hsl(200,100%,70%)] px-6 py-3 text-lg font-bold text-[#15162c] shadow-xl transition-all hover:bg-[hsl(200,100%,80%)] focus:ring-2 focus:ring-white/50 focus:outline-none"
+              >
+                Submit Answer
+              </button>
+            </form>
+
+            {quizResult && (
+              <div
+                className={`mt-6 rounded-lg border p-4 text-center text-lg ${
+                  quizResult === "correct"
+                    ? "border-green-500 bg-green-500/20 text-green-300"
+                    : "border-red-500 bg-red-500/20 text-red-300"
+                }`}
+              >
+                {quizResult === "correct" ? (
+                  <div>
+                    <p className="mb-2">🎉 Correct! Great job!</p>
+                    <p className="text-sm text-white/70">
+                      The punchline was: "{currentQuizJoke.punchline}"
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="mb-2">❌ Not quite right. Try again!</p>
+                    <p className="text-sm text-white/70">
+                      The correct punchline was: "{currentQuizJoke.punchline}"
+                    </p>
+                  </div>
+                )}
+                <button
+                  onClick={() => {
+                    setCurrentQuizJoke(getRandomJoke());
+                    setQuizAnswer("");
+                    setQuizResult(null);
+                  }}
+                  className="mt-3 rounded-lg bg-[hsl(200,100%,70%)] px-4 py-2 text-sm font-bold text-[#15162c] transition-all hover:bg-[hsl(200,100%,80%)]"
+                >
+                  Try Another Joke
+                </button>
               </div>
             )}
           </div>
