@@ -5,7 +5,7 @@ This is a [T3 Stack](https://create.t3.gg/) project created with `create-t3-app`
 
 You can clone my website with the following commands (if you want to)
 
-git clone [https://github.com/your-username/your-repo](https://github.com/anika4anne/joke-generator.git)]
+git clone (https://github.com/anika4anne/joke-generator.git)
 cd joke-generator
 npm install
 npm start
