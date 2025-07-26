@@ -550,13 +550,85 @@ export const jokes: Joke[] = [
     category: "food",
   },
 
+  // People & Personalities
+  {
+    id: 86,
+    setup: "Why did the teacher go to the beach?",
+    punchline: "To test the waters!",
+    category: "people",
+  },
+  {
+    id: 87,
+    setup: "What do you call a doctor who fixes broken websites?",
+    punchline: "A URLologist!",
+    category: "people",
+  },
+  {
+    id: 88,
+    setup: "Why did the nurse go to art school?",
+    punchline: "To learn how to draw blood!",
+    category: "people",
+  },
+  {
+    id: 89,
+    setup: "What do you call a dentist who doesn't like tea?",
+    punchline: "Denis!",
+    category: "people",
+  },
+  {
+    id: 90,
+    setup: "Why did the chef go to the doctor?",
+    punchline: "Because he was feeling a bit under the weather!",
+    category: "people",
+  },
+  {
+    id: 91,
+    setup: "What do you call a lawyer who's always late?",
+    punchline: "A procrastinator!",
+    category: "people",
+  },
+  {
+    id: 92,
+    setup: "Why did the engineer go broke?",
+    punchline: "Because he lost his bearings!",
+    category: "people",
+  },
+  {
+    id: 93,
+    setup: "What do you call a musician who's always sad?",
+    punchline: "A blues player!",
+    category: "people",
+  },
+  {
+    id: 94,
+    setup: "Why did the accountant go to the beach?",
+    punchline: "To work on his balance!",
+    category: "people",
+  },
+  {
+    id: 95,
+    setup: "What do you call a gardener who's always happy?",
+    punchline: "A plant lover!",
+    category: "people",
+  },
+
   // Continue with more jokes to reach 500...
   // For brevity, I'll add a function to generate the remaining jokes
 ];
 
 // Function to get a random joke
 export function getRandomJoke(): Joke {
-  return jokes[Math.floor(Math.random() * jokes.length)];
+  const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+  if (!randomJoke) {
+    // Fallback joke if array is empty
+    return {
+      id: 1,
+      setup: "Why don't scientists trust atoms?",
+      punchline: "Because they make up everything!",
+      category: "science",
+    };
+  }
+  return randomJoke;
 }
 
 // Function to get jokes by category

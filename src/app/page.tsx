@@ -16,6 +16,7 @@ export default function HomePage() {
   const [prompt, setPrompt] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [generatedJoke, setGeneratedJoke] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
   const [joke, setJoke] = useState<Joke>(getRandomJoke());
   const [quizAnswer, setQuizAnswer] = useState("");
   const [quizResult, setQuizResult] = useState<"correct" | "incorrect" | null>(
@@ -27,37 +28,89 @@ export default function HomePage() {
   const emojiClass =
     "inline-block animate-bounce text-7xl md:text-8xl drop-shadow-lg mb-6";
 
+  // AI-powered joke generation
+  async function generateAIJoke(
+    category: string,
+    topic: string,
+  ): Promise<string> {
+    try {
+      const response = await fetch("/api/generate-joke", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category,
+          topic,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate joke");
+      }
+
+      const data = await response.json();
+      return data.joke;
+    } catch (error) {
+      console.error("Error generating AI joke:", error);
+      return "Sorry, I had trouble thinking of a joke. Try again!";
+    }
+  }
+
   // Joke generation based on category and prompt
-  function handleGenerateJoke(e: React.FormEvent<HTMLFormElement>) {
+  async function handleGenerateJoke(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsGenerating(true);
 
-    let jokesToChooseFrom = jokes;
+    try {
+      // Special handling for people category with personalized jokes
+      if (selectedCategory === "people" && prompt.trim()) {
+        const personInfo = prompt.trim();
+        const personName = personInfo.split(",")[0]?.trim() || "Someone";
+        const personDetails = personInfo.split(",").slice(1).join(",").trim();
 
-    // Filter by category if selected
-    if (selectedCategory) {
-      jokesToChooseFrom = getJokesByCategory(selectedCategory);
-    }
+        // Use AI for personalized people jokes
+        const aiJoke = await generateAIJoke(
+          "people",
+          `${personName}, ${personDetails}`,
+        );
+        setGeneratedJoke(aiJoke);
+        return;
+      }
 
-    // Filter by prompt if provided
-    if (prompt.trim()) {
-      const promptLower = prompt.trim().toLowerCase();
-      jokesToChooseFrom = jokesToChooseFrom.filter(
-        (joke) =>
-          joke.setup.toLowerCase().includes(promptLower) ||
-          joke.punchline.toLowerCase().includes(promptLower) ||
-          joke.category.toLowerCase().includes(promptLower),
-      );
-    }
+      // Use AI for other categories with prompts
+      if (prompt.trim()) {
+        const aiJoke = await generateAIJoke(
+          selectedCategory || "general",
+          prompt.trim(),
+        );
+        setGeneratedJoke(aiJoke);
+        return;
+      }
 
-    // If no jokes found, use all jokes
-    if (jokesToChooseFrom.length === 0) {
-      jokesToChooseFrom = jokes;
-    }
+      // Fallback to local jokes if no prompt provided
+      let jokesToChooseFrom = jokes;
 
-    const randomJoke =
-      jokesToChooseFrom[Math.floor(Math.random() * jokesToChooseFrom.length)];
-    if (randomJoke) {
-      setGeneratedJoke(`${randomJoke.setup} ${randomJoke.punchline}`);
+      // Filter by category if selected
+      if (selectedCategory) {
+        jokesToChooseFrom = getJokesByCategory(selectedCategory);
+      }
+
+      // If no jokes found, use all jokes
+      if (jokesToChooseFrom.length === 0) {
+        jokesToChooseFrom = jokes;
+      }
+
+      const randomJoke =
+        jokesToChooseFrom[Math.floor(Math.random() * jokesToChooseFrom.length)];
+      if (randomJoke) {
+        setGeneratedJoke(`${randomJoke.setup} ${randomJoke.punchline}`);
+      }
+    } catch (error) {
+      console.error("Error generating joke:", error);
+      setGeneratedJoke("Sorry, something went wrong. Try again!");
+    } finally {
+      setIsGenerating(false);
     }
   }
 
@@ -219,28 +272,49 @@ export default function HomePage() {
                   </option>
                   <option value="language">📝 Language & Words</option>
                   <option value="time">⏰ Time & Calendar</option>
+                  <option value="people">👥 People</option>
                 </select>
               </div>
 
               {/* Topic/Prompt Input */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-white/80">
-                  Or enter a specific topic:
+                  {selectedCategory === "people"
+                    ? "Enter person's name and info:"
+                    : "Or enter a specific topic:"}
                 </label>
                 <input
                   type="text"
                   className="w-full rounded-lg border-2 border-white/30 bg-white/10 px-4 py-3 text-white placeholder-white/50 backdrop-blur-sm transition-all focus:border-[hsl(200,100%,70%)] focus:outline-none"
-                  placeholder="e.g. cats, school, pizza, doctors..."
+                  placeholder={
+                    selectedCategory === "people"
+                      ? "e.g. John, a teacher who loves pizza..."
+                      : "e.g. cats, school, pizza, doctors..."
+                  }
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                 />
+                {selectedCategory === "people" && (
+                  <p className="text-xs text-white/60">
+                    💡 Tip: Add details like their job, hobbies, or personality
+                    traits for better jokes!
+                  </p>
+                )}
               </div>
 
               <button
                 type="submit"
-                className="rounded-lg bg-[hsl(200,100%,70%)] px-6 py-3 text-lg font-bold text-[#15162c] shadow-xl transition-all hover:bg-[hsl(200,100%,80%)] focus:ring-2 focus:ring-white/50 focus:outline-none"
+                disabled={isGenerating}
+                className="rounded-lg bg-[hsl(200,100%,70%)] px-6 py-3 text-lg font-bold text-[#15162c] shadow-xl transition-all hover:bg-[hsl(200,100%,80%)] focus:ring-2 focus:ring-white/50 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Generate Joke
+                {isGenerating ? (
+                  <span className="flex items-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-[#15162c] border-t-transparent"></div>
+                    AI is thinking...
+                  </span>
+                ) : (
+                  "Generate Joke"
+                )}
               </button>
             </form>
             {generatedJoke && (
