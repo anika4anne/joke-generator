@@ -1,29 +1,35 @@
-# Create T3 App
+# Joke Generator Website
+<img width="1000" height="500" alt="image" src="https://github.com/user-attachments/assets/9b073204-ce68-4c7b-8b04-08fa36dcf527" />
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a [T3 Stack](https://create.t3.gg/) project created with `create-t3-app`.
 
-## What's next? How do I make an app with this?
+You can clone my website with the following commands (if you want to)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+git clone [https://github.com/your-username/your-repo](https://github.com/anika4anne/joke-generator.git)]
+cd joke-generator
+npm install
+npm start
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+Website: (https://joke-generator-six-phi.vercel.app/)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Why did I make this website?
+For fun!
 
-## Learn More
+Images:
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Home page looks like this:
+You can generate a new joke each time you click the button
+<img width="1723" height="1078" alt="image" src="https://github.com/user-attachments/assets/541fc8c5-d6d2-4343-82d1-a96e7682f4f4" />
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+This is the navigation bar:
+If you click on the How to Play it tells you the rules
+<img width="1717" height="78" alt="image" src="https://github.com/user-attachments/assets/d856c07b-b31e-47ce-990b-ab9ea5b00ffb" />
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Generate button on nav bar:
+If you click it, you can personalize your own joke, and I have a bunch of categories to pick from
+<img width="500" height="387" alt="image" src="https://github.com/user-attachments/assets/1d1e8fde-3419-4371-a1cd-0d2106a52ef0" />
+<img width="462" height="528" alt="image" src="https://github.com/user-attachments/assets/f0e99f4f-e457-4e94-ad5f-4975d7116643" />
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+quiz button:
+It asks you a joke, and you have to try to answer it, then it grades you and tells you if you got it right or wrong
+<img width="457" height="369" alt="image" src="https://github.com/user-attachments/assets/c20cd951-fc53-4f08-ac8b-b3ab036d8956" />
