@@ -15,11 +15,9 @@ interface AIResponse {
 }
 
 export async function POST(request: NextRequest) {
-  // Parse request data once at the beginning
   const { category, topic } = (await request.json()) as RequestData;
 
   try {
-    // Use Hack Club AI (free, no API key needed)
     const prompt = generatePrompt(category, topic);
 
     console.log("Making Hack Club AI API call with prompt:", prompt);
@@ -70,28 +68,39 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Error generating joke:", error);
-    // Fallback to mock AI if real AI fails
+
     return generateMockJoke(category, topic);
   }
 }
 
 function generatePrompt(category: string, topic: string): string {
-  // Create a direct, simple prompt that asks AI to generate a joke from scratch
-  const basePrompt = `Create a funny, original joke about "${topic}". 
-  
+  const basePrompt =
+    category === "people"
+      ? `ROAST "${topic}" HARD! Create a savage but funny comedy roast. 
+    
+Requirements:
+- Make it genuinely creative and original
+- Keep it clever and witty (not just mean)
+- Make it specific to the person's name, job, or characteristics
+- Use wordplay, puns, or clever observations
+- Maximum 3 lines total
+- Make it a proper comedy roast
+
+Just provide the roast directly, no explanations.`
+      : `Create a funny, original joke about "${topic}". 
+    
 Requirements:
 - Make it genuinely creative and original
 - Keep it family-friendly and appropriate
 - Make it specific to the topic provided
 - Use wordplay, puns, or clever observations
-- Keep it under 100 words
+- Maximum 3 lines total
 - Make it actually funny and entertaining
 
 Just provide the joke directly, no explanations.`;
 
-  // Add category-specific context for better AI responses
   const categoryContext = {
-    people: `Focus on the person's name, job, personality traits, or unique characteristics. Make it personal and relatable.`,
+    people: `ROAST THIS PERSON HARD! Use their name, job, or characteristics to create a savage but funny burn. Maximum 2-3 lines. Be clever, witty, and absolutely roast them. Make it a proper comedy roast.`,
     animals: `Make it about the animal's behavior, characteristics, habits, or natural instincts. Use animal-specific humor.`,
     food: `Use food-related wordplay, cooking scenarios, eating habits, or culinary humor. Make it deliciously funny!`,
     science: `Include scientific concepts, technology, experiments, or educational humor. Make it clever and informative.`,
