@@ -145,9 +145,11 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-5xl items-center justify-between px-8 py-4">
           {/* Logo Section */}
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[hsl(200,100%,70%)] to-[hsl(200,100%,50%)] shadow-lg">
-              <i className="fas fa-laugh-wink text-xl text-[#15162c]" />
-            </div>
+            <img
+              src="/logo.png.png"
+              alt="Joke Generator Logo"
+              className="h-10 w-10 rounded-full object-cover shadow-lg"
+            />
             <span className="text-2xl font-extrabold tracking-tight text-white drop-shadow-lg">
               Joke Generator
             </span>
@@ -188,7 +190,7 @@ export default function HomePage() {
                 setQuizResult(null);
               }}
             >
-              <i className="fas fa-question-circle text-sm transition-transform duration-200 group-hover:scale-110" />
+              <i className="fas fa-book text-sm transition-transform duration-200 group-hover:scale-110" />
               <span>Quiz</span>
             </button>
           </nav>
