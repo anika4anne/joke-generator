@@ -124,7 +124,17 @@ export default function HomePage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] px-4 text-white">
+    <main
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 text-white"
+      style={{
+        backgroundImage: 'url("/bg.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/40"></div>
       <header className="fixed top-0 left-0 z-50 w-full border-b border-white/20 bg-gradient-to-r from-[#2e026d]/95 via-[#1a1333]/95 to-[#15162c]/95 shadow-lg backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-8 py-4">
           <div className="flex items-center gap-3">
