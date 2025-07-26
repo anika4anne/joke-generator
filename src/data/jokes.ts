@@ -6,7 +6,6 @@ export interface Joke {
 }
 
 export const jokes: Joke[] = [
-  // Science & Technology
   {
     id: 1,
     setup: "Why don't scientists trust atoms?",
@@ -454,7 +453,6 @@ export const jokes: Joke[] = [
     category: "language",
   },
 
-  // More jokes to reach 500...
   {
     id: 71,
     setup: "What do you call a fake noodle?",
@@ -486,7 +484,6 @@ export const jokes: Joke[] = [
     category: "general",
   },
 
-  // Continue with more unique jokes...
   {
     id: 76,
     setup: "Why did the golfer bring two pairs of pants?",
@@ -518,7 +515,6 @@ export const jokes: Joke[] = [
     category: "school",
   },
 
-  // Adding more variety...
   {
     id: 81,
     setup: "What do you call a fake noodle?",
@@ -611,16 +607,11 @@ export const jokes: Joke[] = [
     punchline: "A plant lover!",
     category: "people",
   },
-
-  // Continue with more jokes to reach 500...
-  // For brevity, I'll add a function to generate the remaining jokes
 ];
 
-// Function to get a random joke
 export function getRandomJoke(): Joke {
   const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
   if (!randomJoke) {
-    // Fallback joke if array is empty
     return {
       id: 1,
       setup: "Why don't scientists trust atoms?",
@@ -631,12 +622,10 @@ export function getRandomJoke(): Joke {
   return randomJoke;
 }
 
-// Function to get jokes by category
 export function getJokesByCategory(category: string): Joke[] {
   return jokes.filter((joke) => joke.category === category);
 }
 
-// Function to get all categories
 export function getCategories(): string[] {
   return [...new Set(jokes.map((joke) => joke.category))];
 }

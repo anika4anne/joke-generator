@@ -24,11 +24,6 @@ export default function HomePage() {
   );
   const [currentQuizJoke, setCurrentQuizJoke] = useState<Joke | null>(null);
 
-  // Placeholder for animation (wiggle) - keeping for future use
-  // const emojiClass =
-  //   "inline-block animate-bounce text-7xl md:text-8xl drop-shadow-lg mb-6";
-
-  // AI-powered joke generation
   async function generateAIJoke(
     category: string,
     topic: string,
@@ -57,19 +52,16 @@ export default function HomePage() {
     }
   }
 
-  // Joke generation based on category and prompt
   async function handleGenerateJoke(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsGenerating(true);
 
     try {
-      // Special handling for people category with personalized jokes
       if (selectedCategory === "people" && prompt.trim()) {
         const personInfo = prompt.trim();
         const personName = personInfo.split(",")[0]?.trim() ?? "Someone";
         const personDetails = personInfo.split(",").slice(1).join(",").trim();
 
-        // Use AI for personalized people jokes
         const aiJoke = await generateAIJoke(
           "people",
           `${personName}, ${personDetails}`,
@@ -78,7 +70,6 @@ export default function HomePage() {
         return;
       }
 
-      // Use AI for other categories with prompts
       if (prompt.trim()) {
         const aiJoke = await generateAIJoke(
           selectedCategory || "general",
@@ -88,15 +79,12 @@ export default function HomePage() {
         return;
       }
 
-      // Fallback to local jokes if no prompt provided
       let jokesToChooseFrom = jokes;
 
-      // Filter by category if selected
       if (selectedCategory) {
         jokesToChooseFrom = getJokesByCategory(selectedCategory);
       }
 
-      // If no jokes found, use all jokes
       if (jokesToChooseFrom.length === 0) {
         jokesToChooseFrom = jokes;
       }
@@ -114,7 +102,6 @@ export default function HomePage() {
     }
   }
 
-  // Quiz grading function
   function handleQuizSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!currentQuizJoke || !quizAnswer.trim()) return;
@@ -122,11 +109,9 @@ export default function HomePage() {
     const userAnswer = quizAnswer.trim().toLowerCase();
     const correctAnswer = currentQuizJoke.punchline.toLowerCase();
 
-    // Simple matching - check if user's answer contains key words from the punchline
     const keyWords = correctAnswer.split(" ").filter((word) => word.length > 3);
     const hasKeyWords = keyWords.some((word) => userAnswer.includes(word));
 
-    // Also check for exact match or close match
     const isExactMatch = userAnswer === correctAnswer;
     const isCloseMatch =
       correctAnswer.includes(userAnswer) || userAnswer.includes(correctAnswer);
@@ -140,10 +125,8 @@ export default function HomePage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] px-4 text-white">
-      {/* Enhanced Topbar */}
       <header className="fixed top-0 left-0 z-50 w-full border-b border-white/20 bg-gradient-to-r from-[#2e026d]/95 via-[#1a1333]/95 to-[#15162c]/95 shadow-lg backdrop-blur-xl">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-8 py-4">
-          {/* Logo Section */}
           <div className="flex items-center gap-3">
             <img
               src="/logo.png.png"
@@ -155,7 +138,6 @@ export default function HomePage() {
             </span>
           </div>
 
-          {/* Navigation */}
           <nav className="flex items-center gap-2">
             <Link
               href="/"
@@ -197,7 +179,6 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Modal for How to Play */}
       {showHowToPlay && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="animate-fade-in relative w-full max-w-md rounded-xl border border-white/20 bg-[#1a1333] p-8 shadow-2xl">
@@ -226,8 +207,6 @@ export default function HomePage() {
           </div>
         </div>
       )}
-
-      {/* Modal for Generate Joke by Prompt */}
       {showGenerate && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="animate-fade-in relative w-full max-w-md rounded-xl border border-white/20 bg-[#1a1333] p-8 shadow-2xl">
@@ -247,7 +226,6 @@ export default function HomePage() {
               <i className="fas fa-magic" /> Generate a Joke
             </h2>
             <form onSubmit={handleGenerateJoke} className="flex flex-col gap-4">
-              {/* Category Selection */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-white/80">
                   Choose a category (optional):
@@ -278,7 +256,6 @@ export default function HomePage() {
                 </select>
               </div>
 
-              {/* Topic/Prompt Input */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-white/80">
                   {selectedCategory === "people"
@@ -328,7 +305,6 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Modal for Quiz */}
       {showQuiz && currentQuizJoke && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
           <div className="animate-fade-in relative w-full max-w-md rounded-xl border border-white/20 bg-[#1a1333] p-8 shadow-2xl">
@@ -350,7 +326,7 @@ export default function HomePage() {
 
             <div className="mb-6">
               <p className="mb-4 text-lg text-white/90">
-                <strong>Setup:</strong> {currentQuizJoke.setup}
+                <strong>Question:</strong> {currentQuizJoke.setup}
               </p>
               <p className="text-lg text-white/90">
                 <strong>Your task:</strong> Complete the punchline!
@@ -415,18 +391,15 @@ export default function HomePage() {
         </div>
       )}
 
-      {/* Spacer for topbar */}
       <div className="h-16" />
 
       <div className="flex w-full max-w-2xl flex-col items-center gap-6">
-        {/* Hand-drawn style emoji */}
         <div className="relative">
           <span className="mb-6 inline-block rotate-2 transform text-8xl drop-shadow-lg transition-transform duration-300 hover:rotate-0 md:text-9xl">
             😂
           </span>
         </div>
 
-        {/* More personal, handwritten-style title */}
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-wide md:text-6xl">
             Welcome to my{" "}
@@ -440,7 +413,6 @@ export default function HomePage() {
           </p>
         </div>
 
-        {/* Joke card with more personality */}
         <div className="relative w-full">
           <div className="relative overflow-hidden rounded-2xl border border-white/25 bg-white/15 p-8 shadow-xl backdrop-blur-sm">
             <div className="space-y-4 text-center">
@@ -464,16 +436,14 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Personal note */}
         <div className="space-y-2 text-center">
           <p className="text-sm text-white/60">Made with ❤️</p>
           <p className="text-xs text-white/40">
-            Click the button above for endless laughs!
+            Click the button above for new jokes!
           </p>
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="fixed right-4 bottom-4 text-sm text-white/60">
         © 2025 Created by Anika
       </footer>
