@@ -74,24 +74,24 @@ Requirements:
 
 Just provide the joke directly, no explanations.`;
 
-  // Add category-specific context if needed
+  // Add category-specific context for better AI responses
   const categoryContext = {
-    people: `Focus on the person's name, job, or personality traits.`,
-    animals: `Make it about the animal's behavior, characteristics, or habits.`,
-    food: `Use food-related wordplay, cooking, or eating scenarios.`,
-    science: `Include scientific concepts, technology, or educational humor.`,
-    school: `Reference learning, education, teachers, or school life.`,
-    work: `Use workplace scenarios, office humor, or professional situations.`,
-    health: `Reference medicine, doctors, health, or wellness topics.`,
-    sports: `Use sports terminology, athletic scenarios, or game situations.`,
-    travel: `Reference travel, transportation, or vacation scenarios.`,
-    music: `Use musical terms, instruments, or performance scenarios.`,
-    weather: `Reference weather, nature, or environmental topics.`,
-    money: `Use financial terms, business scenarios, or economic humor.`,
-    relationships: `Focus on dating, friendship, or relationship dynamics.`,
-    language: `Use wordplay, puns, or linguistic humor.`,
-    time: `Reference time, schedules, calendars, or temporal concepts.`,
-    general: `Be creative and original with the topic.`,
+    people: `Focus on the person's name, job, personality traits, or unique characteristics. Make it personal and relatable.`,
+    animals: `Make it about the animal's behavior, characteristics, habits, or natural instincts. Use animal-specific humor.`,
+    food: `Use food-related wordplay, cooking scenarios, eating habits, or culinary humor. Make it deliciously funny!`,
+    science: `Include scientific concepts, technology, experiments, or educational humor. Make it clever and informative.`,
+    school: `Reference learning, education, teachers, students, homework, or school life situations.`,
+    work: `Use workplace scenarios, office humor, professional situations, or job-related comedy.`,
+    health: `Reference medicine, doctors, nurses, health, wellness, or medical scenarios. Keep it light-hearted.`,
+    sports: `Use sports terminology, athletic scenarios, game situations, or competitive humor.`,
+    travel: `Reference travel, transportation, vacation scenarios, or journey-related humor.`,
+    music: `Use musical terms, instruments, performance scenarios, or rhythm-related humor.`,
+    weather: `Reference weather patterns, nature, environmental topics, or seasonal humor.`,
+    money: `Use financial terms, business scenarios, economic concepts, or money-related humor. Make it clever about finances!`,
+    relationships: `Focus on dating, friendship, relationship dynamics, or social interactions. Keep it clean and fun.`,
+    language: `Use wordplay, puns, linguistic humor, or clever language tricks.`,
+    time: `Reference time, schedules, calendars, temporal concepts, or time-related humor.`,
+    general: `Be creative and original with the topic. Use any style of humor that fits.`,
   };
 
   const context =
