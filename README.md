@@ -23,7 +23,7 @@ Images:
 Home page looks like this:
 You can generate a new joke each time you click the button
 
-<img width="1723" height="1078" alt="image" src="https://github.com/user-attachments/assets/541fc8c5-d6d2-4343-82d1-a96e7682f4f4" />
+[<img width="1723" height="1078" alt="image" src="https://github.com/user-attachments/assets/541fc8c5-d6d2-4343-82d1-a96e7682f4f4" />](https://hc-cdn.hel1.your-objectstorage.com/s/v3/503d5ebce715df18eb6ab7234ff7df24fa52cce8_85JD.png)
 
 This is the navigation bar:
 If you click on the How to Play it tells you the rules
