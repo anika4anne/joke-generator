@@ -133,48 +133,55 @@ export default function HomePage() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Dark overlay for better text readability */}
       <div className="absolute inset-0 bg-black/40"></div>
-      <header className="fixed top-0 left-0 z-50 w-full border-b border-white/20 bg-gradient-to-r from-[#2e026d]/95 via-[#1a1333]/95 to-[#15162c]/95 shadow-lg backdrop-blur-xl">
+      <header className="fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-gradient-to-r from-black/80 via-gray-900/80 to-black/80 shadow-2xl backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-8 py-4">
           <div className="flex items-center gap-3">
             <img
               src="/logo.png.png"
               alt="Joke Generator Logo"
-              className="h-10 w-10 rounded-full object-cover shadow-lg"
+              className="h-10 w-10 rounded-full object-cover shadow-lg ring-2 ring-white/20"
             />
             <span className="text-2xl font-extrabold tracking-tight text-white drop-shadow-lg">
               Joke Generator
             </span>
           </div>
 
-          <nav className="flex items-center gap-2">
+          <nav className="flex items-center gap-3">
             <Link
               href="/"
-              className="group flex items-center gap-2 rounded-lg px-4 py-2 font-semibold text-white/80 transition-all duration-200 hover:bg-white/10 hover:text-white hover:shadow-md"
+              className="group flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2 font-semibold text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-white hover:shadow-lg"
             >
               <i className="fas fa-home text-sm transition-transform duration-200 group-hover:scale-110" />
               <span>Home</span>
             </Link>
 
             <button
-              className="group flex items-center gap-2 rounded-lg px-4 py-2 font-semibold text-white/80 transition-all duration-200 hover:bg-white/10 hover:text-white hover:shadow-md focus:ring-2 focus:ring-[hsl(200,100%,70%)]/50 focus:outline-none"
+              className="group flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2 font-semibold text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-white hover:shadow-lg focus:ring-2 focus:ring-white/30 focus:outline-none"
               onClick={() => setShowHowToPlay(true)}
             >
               <i className="fas fa-question-circle text-sm transition-transform duration-200 group-hover:scale-110" />
               <span>How to Play</span>
             </button>
 
-            <button
-              className="group flex items-center gap-2 rounded-lg px-4 py-2 font-semibold text-white/80 transition-all duration-200 hover:bg-white/10 hover:text-white hover:shadow-md focus:ring-2 focus:ring-[hsl(200,100%,70%)]/50 focus:outline-none"
-              onClick={() => setShowGenerate(true)}
+            <Link
+              href="/generate"
+              className="group flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2 font-semibold text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-white hover:shadow-lg focus:ring-2 focus:ring-white/30 focus:outline-none"
             >
               <i className="fas fa-magic text-sm transition-transform duration-200 group-hover:scale-110" />
               <span>Generate</span>
-            </button>
+            </Link>
+
+            <Link
+              href="/feature-request"
+              className="group flex items-center gap-2 rounded-lg bg-white/5 px-4 py-2 font-semibold text-white/90 transition-all duration-200 hover:bg-white/15 hover:text-white hover:shadow-lg focus:ring-2 focus:ring-white/30 focus:outline-none"
+            >
+              <i className="fas fa-lightbulb text-sm transition-transform duration-200 group-hover:scale-110" />
+              <span>Feature Request</span>
+            </Link>
 
             <button
-              className="group flex items-center gap-2 rounded-lg bg-gradient-to-r from-[hsl(200,100%,70%)] to-[hsl(200,100%,60%)] px-4 py-2 font-semibold text-[#15162c] shadow-lg transition-all duration-200 hover:scale-105 hover:from-[hsl(200,100%,80%)] hover:to-[hsl(200,100%,70%)] hover:shadow-xl focus:ring-2 focus:ring-white/50 focus:outline-none"
+              className="group flex items-center gap-2 rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500 px-4 py-2 font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:from-cyan-300 hover:to-blue-400 hover:shadow-xl focus:ring-2 focus:ring-cyan-400/50 focus:outline-none"
               onClick={() => {
                 setShowQuiz(true);
                 setCurrentQuizJoke(getRandomJoke());

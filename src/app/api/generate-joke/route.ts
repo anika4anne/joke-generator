@@ -83,7 +83,8 @@ Requirements:
 - Keep it clever and witty (not just mean)
 - Make it specific to the person's name, job, or characteristics
 - Use wordplay, puns, or clever observations
-- Maximum 3 lines total
+- Maximum 25 words total
+- USE SIMPLE WORDS ONLY - no complex vocabulary
 - Make it a proper comedy roast
 
 Just provide the roast directly, no explanations.`
@@ -94,28 +95,29 @@ Requirements:
 - Keep it family-friendly and appropriate
 - Make it specific to the topic provided
 - Use wordplay, puns, or clever observations
-- Maximum 3 lines total
+- Maximum 25 words total
+- USE SIMPLE WORDS ONLY - no complex vocabulary
 - Make it actually funny and entertaining
 
 Just provide the joke directly, no explanations.`;
 
   const categoryContext = {
-    people: `ROAST THIS PERSON HARD! Use their name, job, or characteristics to create a savage but funny burn. Maximum 2-3 lines. Be clever, witty, and absolutely roast them. Make it a proper comedy roast.`,
-    animals: `Make it about the animal's behavior, characteristics, habits, or natural instincts. Use animal-specific humor.`,
-    food: `Use food-related wordplay, cooking scenarios, eating habits, or culinary humor. Make it deliciously funny!`,
-    science: `Include scientific concepts, technology, experiments, or educational humor. Make it clever and informative.`,
-    school: `Reference learning, education, teachers, students, homework, or school life situations.`,
-    work: `Use workplace scenarios, office humor, professional situations, or job-related comedy.`,
-    health: `Reference medicine, doctors, nurses, health, wellness, or medical scenarios. Keep it light-hearted.`,
-    sports: `Use sports terminology, athletic scenarios, game situations, or competitive humor.`,
-    travel: `Reference travel, transportation, vacation scenarios, or journey-related humor.`,
-    music: `Use musical terms, instruments, performance scenarios, or rhythm-related humor.`,
-    weather: `Reference weather patterns, nature, environmental topics, or seasonal humor.`,
-    money: `Use financial terms, business scenarios, economic concepts, or money-related humor. Make it clever about finances!`,
-    relationships: `Focus on dating, friendship, relationship dynamics, or social interactions. Keep it clean and fun.`,
-    language: `Use wordplay, puns, linguistic humor, or clever language tricks.`,
-    time: `Reference time, schedules, calendars, temporal concepts, or time-related humor.`,
-    general: `Be creative and original with the topic. Use any style of humor that fits.`,
+    people: `ROAST THIS PERSON HARD! Use their name, job, or characteristics to create a savage but funny burn. Maximum 25 words. USE SIMPLE WORDS ONLY. Be clever, witty, and absolutely roast them. Make it a proper comedy roast.`,
+    animals: `Make it about the animal's behavior, characteristics, habits, or natural instincts. Use animal-specific humor. USE SIMPLE WORDS ONLY.`,
+    food: `Use food-related wordplay, cooking scenarios, eating habits, or culinary humor. Make it deliciously funny! USE SIMPLE WORDS ONLY.`,
+    science: `Include scientific concepts, technology, experiments, or educational humor. Make it clever and informative. USE SIMPLE WORDS ONLY.`,
+    school: `Reference learning, education, teachers, students, homework, or school life situations. USE SIMPLE WORDS ONLY.`,
+    work: `Use workplace scenarios, office humor, professional situations, or job-related comedy. USE SIMPLE WORDS ONLY.`,
+    health: `Reference medicine, doctors, nurses, health, wellness, or medical scenarios. Keep it light-hearted. USE SIMPLE WORDS ONLY.`,
+    sports: `Use sports terminology, athletic scenarios, game situations, or competitive humor. USE SIMPLE WORDS ONLY.`,
+    travel: `Reference travel, transportation, vacation scenarios, or journey-related humor. USE SIMPLE WORDS ONLY.`,
+    music: `Use musical terms, instruments, performance scenarios, or rhythm-related humor. USE SIMPLE WORDS ONLY.`,
+    weather: `Reference weather patterns, nature, environmental topics, or seasonal humor. USE SIMPLE WORDS ONLY.`,
+    money: `Use financial terms, business scenarios, economic concepts, or money-related humor. Make it clever about finances! USE SIMPLE WORDS ONLY.`,
+    relationships: `Focus on dating, friendship, relationship dynamics, or social interactions. Keep it clean and fun. USE SIMPLE WORDS ONLY.`,
+    language: `Use wordplay, puns, linguistic humor, or clever language tricks. USE SIMPLE WORDS ONLY.`,
+    time: `Reference time, schedules, calendars, temporal concepts, or time-related humor. USE SIMPLE WORDS ONLY.`,
+    general: `Be creative and original with the topic. Use any style of humor that fits. USE SIMPLE WORDS ONLY.`,
   };
 
   const context =
