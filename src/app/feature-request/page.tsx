@@ -36,20 +36,34 @@ export default function FeatureRequestPage() {
     setSubmitStatus("idle");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      console.log("Feature request submitted:", formData);
-
-      setSubmitStatus("success");
-      setFormData({
-        name: "",
-        email: "",
-        featureTitle: "",
-        featureDescription: "",
-        category: "",
-        priority: "medium",
-        additionalInfo: "",
+      const response = await fetch("/api/submit-feature-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit feature request");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          featureTitle: "",
+          featureDescription: "",
+          category: "",
+          priority: "medium",
+          additionalInfo: "",
+        });
+      } else {
+        throw new Error(result.message || "Failed to submit");
+      }
     } catch (error) {
       console.error("Error submitting feature request:", error);
       setSubmitStatus("error");
@@ -220,12 +234,9 @@ export default function FeatureRequestPage() {
                     className="w-full rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-white backdrop-blur-sm transition-all duration-200 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50 focus:outline-none"
                   >
                     <option value="">Select a category</option>
-                    <option value="ui-ux">UI/UX Improvements</option>
                     <option value="new-features">New Features</option>
                     <option value="joke-categories">Joke Categories</option>
-                    <option value="ai-enhancements">AI Enhancements</option>
                     <option value="performance">Performance</option>
-                    <option value="accessibility">Accessibility</option>
                     <option value="other">Other</option>
                   </select>
                 </div>
