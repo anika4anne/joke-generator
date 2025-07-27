@@ -130,11 +130,7 @@ export default function GeneratePage() {
       <div className="flex w-full max-w-2xl flex-col items-center gap-6">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-wide md:text-6xl">
-            Generate a{" "}
-            <span className="relative text-[hsl(200,100%,70%)]">
-              Joke
-              <div className="absolute -bottom-1 left-0 h-1 w-full -skew-x-12 transform bg-[hsl(200,100%,70%)]"></div>
-            </span>
+            Generate a <span className="text-[hsl(200,100%,70%)]">Joke</span>
           </h1>
           <p className="mt-3 text-lg text-white/70 italic">
             Create your own custom jokes! 🎭
