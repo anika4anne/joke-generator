@@ -6,7 +6,6 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-/* Custom Animations */
 @keyframes fade-in {
   from {
     opacity: 0;

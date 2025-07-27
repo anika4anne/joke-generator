@@ -2,12 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  getRandomJoke,
-  getJokesByCategory,
-  jokes,
-  type Joke,
-} from "../../data/jokes";
+import { getJokesByCategory, jokes } from "../../data/jokes";
 
 export default function GeneratePage() {
   const [prompt, setPrompt] = useState("");
@@ -63,7 +58,7 @@ export default function GeneratePage() {
 
       if (prompt.trim()) {
         const aiJoke = await generateAIJoke(
-          selectedCategory || "general",
+          selectedCategory ?? "general",
           prompt.trim(),
         );
         setGeneratedJoke(aiJoke);

@@ -48,7 +48,10 @@ export default function FeatureRequestPage() {
         throw new Error("Failed to submit feature request");
       }
 
-      const result = await response.json();
+      const result = (await response.json()) as {
+        success: boolean;
+        message?: string;
+      };
 
       if (result.success) {
         setSubmitStatus("success");
@@ -62,7 +65,7 @@ export default function FeatureRequestPage() {
           additionalInfo: "",
         });
       } else {
-        throw new Error(result.message || "Failed to submit");
+        throw new Error(result.message ?? "Failed to submit");
       }
     } catch (error) {
       console.error("Error submitting feature request:", error);
@@ -129,7 +132,7 @@ export default function FeatureRequestPage() {
                 Thank You!
               </h2>
               <p className="mb-6 text-lg text-white/90">
-                Your feature request has been submitted successfully. We'll
+                Your feature request has been submitted successfully. We&apos;ll
                 review it and get back to you soon!
               </p>
               <button

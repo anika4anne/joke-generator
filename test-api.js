@@ -19,19 +19,19 @@ async function testHackClubAI() {
       }),
     });
 
-    console.log("Response status:", response.status);
+    console.log("Response status: ", response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Error response:", errorText);
+      console.error("Error response: ", errorText);
       return;
     }
 
     const data = await response.json();
-    console.log("Success! Response:", data.choices[0]?.message?.content);
+    console.log("Success! Response: ", data.choices[0]?.message?.content);
   } catch (error) {
     console.error(
-      "Error:",
+      "Error: ",
       error instanceof Error ? error.message : String(error),
     );
   }

@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "465"),
+      port: parseInt(process.env.SMTP_PORT ?? "465"),
       secure: true,
       auth: {
         user: process.env.SMTP_USER,
@@ -92,14 +92,14 @@ export async function POST(request: NextRequest) {
 
 📝 Feature Details:
    Title: ${data.featureTitle}
-   Category: ${data.category || "Not specified"}
+   Category: ${data.category ?? "Not specified"}
    Priority: ${data.priority}
 
 📄 Description:
 ${data.featureDescription}
 
 💡 Additional Information:
-${data.additionalInfo || "None provided"}
+${data.additionalInfo ?? "None provided"}
 
 ---
 ⏰ Submitted at: ${new Date().toLocaleString()}
@@ -124,7 +124,7 @@ ${data.additionalInfo || "None provided"}
           <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
             <h3 style="color: #374151; margin-top: 0;">📝 Feature Details</h3>
             <p><strong>Title:</strong> ${data.featureTitle}</p>
-            <p><strong>Category:</strong> ${data.category || "Not specified"}</p>
+            <p><strong>Category:</strong> ${data.category ?? "Not specified"}</p>
             <p><strong>Priority:</strong> ${data.priority}</p>
           </div>
           
