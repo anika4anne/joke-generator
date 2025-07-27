@@ -114,7 +114,7 @@ function cleanAIResponse(response: string): string {
   // If the response is still too long, take only the first sentence or phrase
   if (cleaned.length > 200) {
     const sentences = cleaned.split(/[.!?]/);
-    cleaned = sentences[0]?.trim() || cleaned.substring(0, 100);
+    cleaned = sentences[0]?.trim() ?? cleaned.substring(0, 100);
   }
 
   return cleaned;
@@ -168,7 +168,7 @@ Just provide the joke directly, no explanations.`;
   };
 
   const context =
-    categoryContext[category as keyof typeof categoryContext] ||
+    categoryContext[category as keyof typeof categoryContext] ??
     categoryContext.general;
 
   return `${basePrompt}\n\nContext: ${context}`;
@@ -204,7 +204,7 @@ function generateMockJoke(category: string, topic: string) {
   };
 
   const categoryJokes =
-    mockAIJokes[category as keyof typeof mockAIJokes] || mockAIJokes.general;
+    mockAIJokes[category as keyof typeof mockAIJokes] ?? mockAIJokes.general;
   const randomJoke =
     categoryJokes[Math.floor(Math.random() * categoryJokes.length)];
 
